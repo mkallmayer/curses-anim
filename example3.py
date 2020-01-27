@@ -17,8 +17,8 @@ def test(stdscr):
     # define main animation object
     anim = Anim(stdscr, 0.05)
 
-    # define generator objects
-    generator1 = Generator(1000, gen1, stdscr)
+    # define generator objects, one of which triggers screen clear every 200 frames
+    generator1 = Generator(1000, gen1, stdscr, lambda i: i % 50 == 0)
     generator2 = Generator(2000, gen2, stdscr)
 
     # add generators to animation loop with desired refresh rates (default is 1)

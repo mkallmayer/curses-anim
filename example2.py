@@ -7,7 +7,7 @@ import math
 
 def test(stdscr):
 
-    # define two generators (functions that spit out coordinates and printable chars)
+    # define three generators (functions that spit out coordinates and printable chars)
     def gen1(i):
         return [(round(math.sin(0.5 * i) * 5) + 50, i, '.')]
 
