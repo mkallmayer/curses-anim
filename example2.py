@@ -9,16 +9,16 @@ def test(stdscr):
 
     # define two generators (functions that spit out coordinates and printable chars)
     def gen1(i):
-        return (round(math.sin(0.5 * i) * 5) + 50, i, '.')
+        return [(round(math.sin(0.5 * i) * 5) + 50, i, '.')]
 
     def gen2(i):
-        return (round(math.sin(.4 * i) * 10) + 30, i+50, '#')
+        return [(round(math.sin(.4 * i) * 10) + 30, i+50, '#')]
 
     def gen3(i):
-        return (round(math.sin(0.5 * i) * 2) + i // 20, 2 * i, '*')
+        return [(round(math.sin(0.5 * i) * 2) + i // 20, 2 * i, '*')]
 
     # define main animation object
-    anim = Anim(stdscr)
+    anim = Anim(stdscr, 0.05)
 
     # define generator objects
     generator1 = Generator(1000, gen1, stdscr)

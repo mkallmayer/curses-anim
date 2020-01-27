@@ -11,9 +11,10 @@ class Anim:
     the current (time) index of the animation
     """
     
-    def __init__(self, scr):
-        self.generators = []    # generators are stored in this list
-        self.scr        = scr   # curses window on which to draw
+    def __init__(self, scr, timeunit):
+        self.generators = []        # generators are stored in this list
+        self.scr        = scr       # curses window on which to draw
+        self.timeunit   = timeunit  # time between screen refreshs
 
     def add_generator(self, gen, update_rate=1):
         """ add 1 generator """
@@ -27,7 +28,7 @@ class Anim:
         while len(gen_indices) > 0:
         # there are still active generators left
             
-            # decrease update counter for each active generator
+            # decrease refresh timer for each active generator
             update_counter = [update_counter[i]-1 for i in range(len(self.generators))]
 
             for gen_index in gen_indices:
@@ -41,7 +42,7 @@ class Anim:
                         gen_indices.remove(gen_index)
 
             self.scr.refresh()
-            time.sleep(0.05)  # set for debugging
+            time.sleep(self.timeunit)  # set for debugging
 
 class Generator:
     """ 
@@ -59,9 +60,9 @@ class Generator:
         (self.ymax, self.xmax) = scr.getmaxyx()  # get terminal dimensions
 
     def step(self):
-        y, x, txt = self.func(self.i)    # fetch action for this step
-        self.i += 1                 # increase step counter (update state)
-        self.scr.addstr(y % self.ymax, x % self.xmax, txt)  # draw safely on screen
+        for (y,x,txt) in self.func(self.i):  # fetch action for this step
+            self.scr.addstr(y % self.ymax, x % self.xmax, txt)  # draw safely on screen
 
+        self.i += 1  # increase step counter (update state)
         return (self.i <= self.max_iters)  # generator not finished yet
 
